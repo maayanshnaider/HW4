@@ -1,6 +1,7 @@
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
@@ -75,7 +76,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             throw new EmptyQueueException("Queue is empty");
         }
 
-        E removedPerson = head.group.removeFirst();
+        E removedPerson = head.group.remove(0); // Updated method call
         size--;
 
         if (head.group.isEmpty()) {
@@ -92,7 +93,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty");
         }
-        return head.group.getFirst();
+        return head.group.get(0); // Updated method call
     }
 
     public int size() {
@@ -105,63 +106,76 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
     @SuppressWarnings("unchecked")
     public IsraeliQueue<E> clone() {
-        try {
-            IsraeliQueue<E> clonedQueue = (IsraeliQueue<E>) super.clone();
-            clonedQueue.head = null;
-            clonedQueue.tail = null;
-            clonedQueue.size = 0;
+        IsraeliQueue<E> clonedQueue = new IsraeliQueue<>();
 
-            Node<E> current = this.head;
-            while (current != null) {
-                for (E person : current.group) {
-                    E clonedPerson = cloneElement(person);
-                    clonedQueue.add(clonedPerson);
+        Node<E> current = this.head;
+        while (current != null) {
+            Node<E> newNode = new Node<>();
+            for (E person : current.group) {
+                E clonedPerson = cloneElement(person);
+                if (clonedPerson != null) {
+                    newNode.group.add(clonedPerson);
+                    clonedQueue.size++;
                 }
-                current = current.next;
             }
-
-            return clonedQueue;
-        } catch (CloneNotSupportedException e) {
-            return null;
+            if (!newNode.group.isEmpty()) {
+                if (clonedQueue.tail == null) {
+                    clonedQueue.head = clonedQueue.tail = newNode;
+                } else {
+                    clonedQueue.tail.next = newNode;
+                    clonedQueue.tail = newNode;
+                }
+            }
+            current = current.next;
         }
+
+        return clonedQueue;
     }
 
     private E cloneElement(E element) {
+        if (element == null) {
+            return null;
+        }
         try {
             Method cloneMethod = element.getClass().getMethod("clone");
             return (E) cloneMethod.invoke(element);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            return null;
+            // If cloning fails, return the original element
+            // You might want to log this exception
+            System.err.println("Failed to clone element: " + e.getMessage());
+            return element;
         }
     }
 
     @Override
-    public java.util.Iterator<E> iterator() {
-        return new Iterator();
+    public Iterator<E> iterator() {
+        return new IsraeliQueueIterator();
     }
 
-    private class Iterator implements java.util.Iterator<E> {
-        private Node<E> currentNode = head;
-        private int currentIndex = 0;
+    private class IsraeliQueueIterator implements Iterator<E> {
+        private Node<E> current = head;
+        private int groupIndex = 0;
 
         @Override
         public boolean hasNext() {
-            return currentNode != null &&
-                    (currentIndex < currentNode.group.size() || currentNode.next != null);
+            return current != null && (groupIndex < current.group.size() || current.next != null);
         }
 
         @Override
         public E next() {
             if (!hasNext()) {
-                throw new java.util.NoSuchElementException();
+                throw new IllegalStateException("No more elements");
             }
 
-            if (currentIndex >= currentNode.group.size()) {
-                currentNode = currentNode.next;
-                currentIndex = 0;
+            E element = current.group.get(groupIndex);
+            groupIndex++;
+
+            if (groupIndex >= current.group.size()) {
+                current = current.next;
+                groupIndex = 0;
             }
 
-            return currentNode.group.get(currentIndex++);
+            return element;
         }
     }
 }
