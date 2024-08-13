@@ -76,7 +76,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             throw new EmptyQueueException("Queue is empty");
         }
 
-        E removedPerson = head.group.remove(0); // Updated method call
+        E removedPerson = head.group.removeFirst(); // Updated method call
         size--;
 
         if (head.group.isEmpty()) {
@@ -93,7 +93,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty");
         }
-        return head.group.get(0); // Updated method call
+        return head.group.getFirst(); // Updated method call
     }
 
     public int size() {
