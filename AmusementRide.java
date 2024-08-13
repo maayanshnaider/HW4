@@ -19,7 +19,7 @@ public class AmusementRide {
         int rideCount = Math.min(queue.size(), maxCapacity);
         for (int i = 0; i < rideCount; i++) {
             Person person = queue.remove();
-            System.out.println(person);
+            System.out.println(person.getName());
         }
     }
 

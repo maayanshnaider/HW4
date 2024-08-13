@@ -13,8 +13,6 @@ public class Park {
     public void add(AmusementRide ride) {
         if (rideCount < MAX_RIDES) {
             rides[rideCount++] = ride;
-        } else {
-            System.out.println("Park is at maximum capacity. Cannot add more rides.");
         }
     }
 
@@ -30,7 +28,6 @@ public class Park {
 
     public void startRides() throws EmptyQueueException {
         for (int i = 0; i < rideCount; i++) {
-            System.out.println("Starting ride: " + rides[i].getName());
             rides[i].startRide();
         }
     }
@@ -42,7 +39,6 @@ public class Park {
                 return;
             }
         }
-        System.out.println("Ride not found in the park.");
     }
 
     // Getters and setters
