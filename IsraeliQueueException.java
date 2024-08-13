@@ -1,4 +1,4 @@
-public class IsraeliQueueException extends Exception {
+public class IsraeliQueueException extends RuntimeException {
     public IsraeliQueueException(){}
     public IsraeliQueueException(String message) {
         super(message);
