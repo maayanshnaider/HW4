@@ -28,14 +28,14 @@ public class Park {
         }
     }
 
-    public void startRides() {
+    public void startRides() throws EmptyQueueException {
         for (int i = 0; i < rideCount; i++) {
             System.out.println("Starting ride: " + rides[i].getName());
             rides[i].startRide();
         }
     }
 
-    public void addPerson(AmusementRide ride, Person person) {
+    public void addPerson(AmusementRide ride, Person person) throws InvalidInputException {
         for (int i = 0; i < rideCount; i++) {
             if (rides[i] == ride) {
                 rides[i].getQueue().add(person);

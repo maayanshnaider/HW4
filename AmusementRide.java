@@ -9,7 +9,7 @@ public class AmusementRide {
         this.maxCapacity = maxCapacity;
     }
 
-    public void startRide() {
+    public void startRide() throws EmptyQueueException {
         if (queue.isEmpty()) {
             System.out.println("Ride is empty.");
             return;
