@@ -16,16 +16,18 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         if (newPerson == null || friend == null) {
             throw new InvalidInputException("Input cannot be null");
         }
-
+        //the new person is a new node
         Node<E> newNode = new Node<>(newPerson);
-
+        //if queue is empty, the new person is the head and the tail of the queue
         if (head == null) {
             head = tail = newNode;
-        } else {
+        }
+        else {
             Node<E> current = head;
+            // as long as current is a person existing in line
             while (current != null) {
-                if (current.getValue().equals(friend)) {
-                    // Insert after the friend's group
+                //if the current person is the friend we look for
+                if (current.isContained(friend)) {
                     while (current.getNext() != null && current.getNext().getValue().equals(friend)) {
                         current = current.getNext();
                     }
