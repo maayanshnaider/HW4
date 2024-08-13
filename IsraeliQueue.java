@@ -1,7 +1,19 @@
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
+    private static class Node<E> {
+        List<E> group;
+        Node<E> next;
+
+        Node() {
+            this.group = new ArrayList<>();
+            this.next = null;
+        }
+    }
+
     private Node<E> head;
     private Node<E> tail;
     private int size;
@@ -12,79 +24,75 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         this.size = 0;
     }
 
-    public void add(E newPerson, E friend) throws InvalidInputException {
+    public void add(E newPerson, E friend) {
         if (newPerson == null || friend == null) {
             throw new InvalidInputException("Input cannot be null");
         }
 
-        Node<E> newNode = new Node<>(newPerson);
-
         if (head == null) {
+            Node<E> newNode = new Node<>();
+            newNode.group.add(newPerson);
             head = tail = newNode;
         } else {
             Node<E> current = head;
             while (current != null) {
-                if (current.getValue().equals(friend)) {
-                    // Insert after the friend's group
-                    while (current.getNext() != null && current.getNext().getValue().equals(friend)) {
-                        current = current.getNext();
-                    }
-                    newNode.setNext(current.getNext());
-                    current.setNext(newNode);
-                    if (current == tail) {
-                        tail = newNode;
-                    }
+                if (current.group.contains(friend)) {
+                    current.group.add(newPerson);
                     break;
                 }
-                current = current.getNext();
+                current = current.next;
             }
 
             if (current == null) {
-                // Friend not found, add to the end
-                tail.setNext(newNode);
+                // Friend not found, create a new group at the end
+                Node<E> newNode = new Node<>();
+                newNode.group.add(newPerson);
+                tail.next = newNode;
                 tail = newNode;
             }
         }
         size++;
     }
 
-    public void add(E newPerson) throws InvalidInputException {
+    public void add(E newPerson) {
         if (newPerson == null) {
             throw new InvalidInputException("Input cannot be null");
         }
 
-        Node<E> newNode = new Node<>(newPerson);
-
+        Node<E> newNode = new Node<>();
+        newNode.group.add(newPerson);
         if (head == null) {
             head = tail = newNode;
         } else {
-            tail.setNext(newNode);
+            tail.next = newNode;
             tail = newNode;
         }
         size++;
     }
 
-    public E remove() throws EmptyQueueException {
+    public E remove() {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty");
         }
 
-        E removedValue = head.getValue();
-        head = head.getNext();
+        E removedPerson = head.group.removeFirst();
         size--;
 
-        if (head == null) {
-            tail = null;
+        if (head.group.isEmpty()) {
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
         }
 
-        return removedValue;
+        return removedPerson;
     }
 
-    public E peek() throws EmptyQueueException {
+    public E peek() {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty");
         }
-        return head.getValue();
+        return head.group.getFirst();
     }
 
     public int size() {
@@ -105,16 +113,16 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
             Node<E> current = this.head;
             while (current != null) {
-                E clonedValue = cloneElement(current.getValue());
-                clonedQueue.add(clonedValue);
-                current = current.getNext();
+                for (E person : current.group) {
+                    E clonedPerson = cloneElement(person);
+                    clonedQueue.add(clonedPerson);
+                }
+                current = current.next;
             }
 
             return clonedQueue;
         } catch (CloneNotSupportedException e) {
             return null;
-        } catch (InvalidInputException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -133,11 +141,13 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     private class Iterator implements java.util.Iterator<E> {
-        private Node<E> current = head;
+        private Node<E> currentNode = head;
+        private int currentIndex = 0;
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return currentNode != null &&
+                    (currentIndex < currentNode.group.size() || currentNode.next != null);
         }
 
         @Override
@@ -145,9 +155,13 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             if (!hasNext()) {
                 throw new java.util.NoSuchElementException();
             }
-            E value = current.getValue();
-            current = current.getNext();
-            return value;
+
+            if (currentIndex >= currentNode.group.size()) {
+                currentNode = currentNode.next;
+                currentIndex = 0;
+            }
+
+            return currentNode.group.get(currentIndex++);
         }
     }
 }
