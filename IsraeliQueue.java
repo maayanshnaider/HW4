@@ -17,7 +17,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
     public void add(E newPerson, E friend) {
         if (newPerson == null || friend == null) {
-            throw new InvalidInputException();
+            throw new InvalidInputException("Input cannot be null");
         }
 
         Node<List<E>> current = head;
@@ -50,7 +50,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
     public void add(E newPerson) {
         if (newPerson == null) {
-            throw new InvalidInputException("Input cannot be null");
+            throw new InvalidInputException();
         }
 
         List<E> newGroup = new ArrayList<>();

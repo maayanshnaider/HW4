@@ -14,7 +14,8 @@ public class Park {
 
     public void add(AmusementRide ride) {
         if (rideCount < MAX_RIDES) {
-            rides.set(rideCount++, ride);
+            rides.add(ride);
+            rideCount++;
         }
     }
 
