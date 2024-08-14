@@ -24,7 +24,7 @@ public class Person implements Cloneable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Person person = (Person) obj;
-        return id==person.id;
+        return this.id==person.id;
     }
 
     @Override
