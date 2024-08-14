@@ -45,25 +45,10 @@ public class Person implements Cloneable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Person getFriend() {
         return friend;
     }
 
-    public void setFriend(Person friend) {
-        this.friend = friend;
-    }
 
     public boolean hasFriend() {
         if (friend != null) {

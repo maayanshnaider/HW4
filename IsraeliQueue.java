@@ -39,7 +39,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
     public void add(E newPerson, E friend) {
         if (newPerson == null || friend == null) {
-            throw new InvalidInputException("Input cannot be null");
+            throw new InvalidInputException();
         }
 
         Node<List<E>> current = head;
@@ -71,7 +71,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
     public E remove() {
         if (isEmpty()) {
-            throw new EmptyQueueException("Queue is empty");
+            throw new EmptyQueueException();
         }
 
         List<E> group = head.getValue();
@@ -87,10 +87,10 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         return removedPerson;
     }
-
+    //TODO check if works
     public E peek() {
         if (isEmpty()) {
-            throw new EmptyQueueException("Queue is empty");
+            throw new EmptyQueueException();
         }
         return head.getValue().get(0);
     }
@@ -126,7 +126,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         return clonedQueue;
     }
-
+//TODO check what it does
     private E cloneElement(E element) {
         if (element == null) {
             return null;
@@ -137,8 +137,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             // If cloning fails, return the original element
             // You might want to log this exception
-            System.err.println("Failed to clone element: " + e.getMessage());
-            return element;
+            return null;
         }
     }
 

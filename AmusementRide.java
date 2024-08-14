@@ -24,27 +24,9 @@ public class AmusementRide {
     }
 
     // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public IsraeliQueue<Person> getQueue() {
         return queue;
     }
 
-    public void setQueue(IsraeliQueue<Person> queue) {
-        this.queue = queue;
-    }
-
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-    }
 }

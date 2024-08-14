@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Park {
-    private String name;
+    private final String name;
     private ArrayList<AmusementRide> rides;
     private int rideCount;
     private static final int MAX_RIDES = 5;
@@ -18,7 +18,7 @@ public class Park {
             rideCount++;
         }
     }
-
+//TODO check if works
     public void remove(AmusementRide ride) {
         for (int i = 0; i < rideCount; i++) {
             if (rides.get(i) == ride) {
@@ -42,14 +42,5 @@ public class Park {
                 return;
             }
         }
-    }
-
-    // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
