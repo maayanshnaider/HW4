@@ -15,6 +15,28 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         this.size = 0;
     }
 
+    public void add(E newPerson) {
+        if (newPerson == null) {
+            throw new InvalidInputException();
+        }
+
+        if (newPerson instanceof Person && ((Person) newPerson).hasFriend()) {
+            Person friend = ((Person) newPerson).getFriend();
+            add(newPerson, (E) friend);
+        } else {
+            List<E> newGroup = new ArrayList<>();
+            newGroup.add(newPerson);
+            Node<List<E>> newNode = new Node<>(newGroup);
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.setNext(newNode);
+                tail = newNode;
+            }
+            size++;
+        }
+    }
+
     public void add(E newPerson, E friend) {
         if (newPerson == null || friend == null) {
             throw new InvalidInputException("Input cannot be null");
@@ -47,24 +69,6 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
         size++;
     }
-
-    public void add(E newPerson) {
-        if (newPerson == null) {
-            throw new InvalidInputException();
-        }
-
-        List<E> newGroup = new ArrayList<>();
-        newGroup.add(newPerson);
-        Node<List<E>> newNode = new Node<>(newGroup);
-        if (head == null) {
-            head = tail = newNode;
-        } else {
-            tail.setNext(newNode);
-            tail = newNode;
-        }
-        size++;
-    }
-
     public E remove() {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty");

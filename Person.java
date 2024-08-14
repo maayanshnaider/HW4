@@ -64,4 +64,13 @@ public class Person implements Cloneable {
     public void setFriend(Person friend) {
         this.friend = friend;
     }
+
+    public boolean hasFriend() {
+        if (friend != null) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
