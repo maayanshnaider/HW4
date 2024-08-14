@@ -52,6 +52,11 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         if (newPerson == null) {
             throw new InvalidInputException();
         }
+        if (newPerson instanceof Person) {
+            if (newPerson.getFriend()!=null){
+                this.add(newPerson,newPerson.getFriend());
+            }
+        }
 
         List<E> newGroup = new ArrayList<>();
         newGroup.add(newPerson);
