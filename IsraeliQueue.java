@@ -99,7 +99,6 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         return size == 0;
     }
 
-    @SuppressWarnings("unchecked")
     public IsraeliQueue<E> clone() {
         IsraeliQueue<E> clonedQueue = new IsraeliQueue<>();
 

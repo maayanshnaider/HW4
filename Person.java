@@ -1,12 +1,17 @@
 public class Person implements Cloneable {
     private String name;
-    private String id;
+    private int id;
     private Person friend;
 
-    public Person(String name, String id, Person friend) {
+    public Person(String name, int id, Person friend) {
         this.name = name;
         this.id = id;
         this.friend = friend;
+    }
+
+    public Person(String name, int id) {
+        this.name = name;
+        this.id = id;
     }
 
     @Override
@@ -19,7 +24,7 @@ public class Person implements Cloneable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Person person = (Person) obj;
-        return id.equals(person.id);
+        return id==person.id;
     }
 
     @Override
@@ -44,11 +49,11 @@ public class Person implements Cloneable {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
