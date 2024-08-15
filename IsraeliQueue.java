@@ -69,13 +69,14 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
         size++;
     }
+    //TODO check if works
     public E remove() {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }
 
         List<E> group = head.getValue();
-        E removedPerson = group.remove(0);
+        E removedPerson = group.removeFirst();
         size--;
 
         if (group.isEmpty()) {

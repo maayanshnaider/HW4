@@ -152,6 +152,16 @@ public class Main {
         park.addPerson(ride3, new Person("Ploni Almoni 5", 5));
         park.addPerson(ride3, new Person("Ploni Almoni 6", 6));
         park.addPerson(ride3, new Person("Ploni Almoni 7", 7));
+        //my test for remove person from queue:
+        //ride1.getQueue().remove();
+        //works!!
+
+        //my test for does one person equals another by id:
+        //Person person = new Person("Ploni Almoni 8", 8);
+        //Person person2 = new Person("Ploni Almoni 9", 8);
+        //System.out.println(person2.equals(person));
+        //works!!
+
         park.startRides();
         System.out.println("Starting yet again.");
 

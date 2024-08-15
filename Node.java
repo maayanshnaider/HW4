@@ -25,7 +25,7 @@ public class Node<E>{
     public void setNext(Node<E> next) {
         this.next= next;
     }
-
+    //TODO check if works
     public boolean isContained(E other){
         if (this.value.equals(other))
             return true;
