@@ -1,6 +1,6 @@
 public class Person implements Cloneable {
-    private String name;
-    private int id;
+    private final String name;
+    private final int id;
     private Person friend;
 
     public Person(String name, int id, Person friend) {

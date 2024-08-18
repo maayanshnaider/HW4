@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
-    private Node<List<E>> head;
-    private Node<List<E>> tail;
+    private Node<MyLinkedList<E>> head;
+    private Node<MyLinkedList<E>> tail;
     private int size;
 
     public IsraeliQueue() {
@@ -24,9 +24,9 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             Person friend = ((Person) newPerson).getFriend();
             add(newPerson, (E) friend);
         } else {
-            List<E> newGroup = new ArrayList<>();
+            MyLinkedList<E> newGroup = new MyLinkedList<>();
             newGroup.add(newPerson);
-            Node<List<E>> newNode = new Node<>(newGroup);
+            Node<MyLinkedList<E>> newNode = new Node<>(newGroup);
             if (head == null) {
                 head = tail = newNode;
             } else {
@@ -42,11 +42,11 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             throw new InvalidInputException();
         }
 
-        Node<List<E>> current = head;
+        Node<MyLinkedList<E>> current = head;
         boolean friendFound = false;
 
         while (current != null) {
-            List<E> group = current.getValue();
+            MyLinkedList<E> group = current.getValue();
             if (group.contains(friend)) {
                 group.add(newPerson);
                 friendFound = true;
@@ -57,9 +57,9 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         if (!friendFound) {
             // Friend not found, create a new group at the end
-            List<E> newGroup = new ArrayList<>();
+            MyLinkedList<E> newGroup = new MyLinkedList<>();
             newGroup.add(newPerson);
-            Node<List<E>> newNode = new Node<>(newGroup);
+            Node<MyLinkedList<E>> newNode = new Node<>(newGroup);
             if (tail == null) {
                 head = tail = newNode;
             } else {
@@ -75,8 +75,9 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             throw new EmptyQueueException();
         }
 
-        List<E> group = head.getValue();
-        E removedPerson = group.removeFirst();
+        MyLinkedList<E> group = head.getValue();
+        //TODO CHECK
+        E removedPerson = group.remove(0);
         size--;
 
         if (group.isEmpty()) {
@@ -107,15 +108,15 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     public IsraeliQueue<E> clone() {
         IsraeliQueue<E> clonedQueue = new IsraeliQueue<>();
 
-        Node<List<E>> current = this.head;
+        Node<MyLinkedList<E>> current = this.head;
         while (current != null) {
-            List<E> group = current.getValue();
-            List<E> newGroup = new ArrayList<>();
+            MyLinkedList<E> group = current.getValue();
+            MyLinkedList<E> newGroup = new MyLinkedList<>();
             for (E person : group) {
                 E clonedPerson = cloneElement(person);
                 newGroup.add(clonedPerson);
             }
-            Node<List<E>> newNode = new Node<>(newGroup);
+            Node<MyLinkedList<E>> newNode = new Node<>(newGroup);
             if (clonedQueue.tail == null) {
                 clonedQueue.head = clonedQueue.tail = newNode;
             } else {
@@ -148,7 +149,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     private class IsraeliQueueIterator implements Iterator<E> {
-        private Node<List<E>> currentNode = head;
+        private Node<MyLinkedList<E>> currentNode = head;
         private int currentIndex = 0;
 
         @Override
