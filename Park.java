@@ -33,7 +33,7 @@ public class Park {
         Node<AmusementRide> previous = null;
 
         while (current != null) {
-            if (current.getValue() == ride) {
+            if (current.getValue().equals(ride)) { // Uses overridden equals method
                 if (previous == null) {
                     head = current.getNext();
                     if (head == null) {
@@ -66,7 +66,7 @@ public class Park {
     public void addPerson(AmusementRide ride, Person person) throws InvalidInputException {
         Node<AmusementRide> current = head;
         while (current != null) {
-            if (current.getValue() == ride) {
+            if (current.getValue().equals(ride)) { // Uses overridden equals method
                 current.getValue().getQueue().add(person);
                 return;
             }

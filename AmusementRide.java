@@ -29,4 +29,19 @@ public class AmusementRide {
         return queue;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; // Same memory location
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return this == obj; // Check if it's the same instance
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this); // Use identity hash code
+    }
 }
