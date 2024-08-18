@@ -1,5 +1,3 @@
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 
 public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
@@ -17,7 +15,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     * the add method adds a person to the queue. if the new person has a friend in the queue, he will be added to the end of his friend group.
+     * the add method adds a person to the queue. if the new person has a friend in the queue, it calls the second add method.
      * if he doesn't have a friend, he will be added to the end of the queue and form a new group of his own.
      * when a new person is added ot the list the size of the IsraeliQueue is increased by one.
      * if a null person is being added to the list, an exception is thrown.
@@ -46,7 +44,10 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
+     * if the first add method calls this second add method, it gets the new person and his friend and adds the new person to the end
+     * of his friends group. if his friend is not found in the group, the new person will be added to the end of the queue.
+     * if a null person is being added to the list, an exception is thrown.
+     * when a new person is added ot the list the size of the IsraeliQueue is increased by one.
      * @param newPerson
      * @param friend
      */
@@ -84,7 +85,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
+     *this method removes a person from the queue if the queue is not empty, and decreases the size of the list by one
      * @return
      */
     public E remove() {
@@ -93,7 +94,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
 
         MyLinkedList<E> group = head.getValue();
-        E removedPerson = group.remove(0);
+        E removedPerson = group.remove();
         size--;
 
         if (group.isEmpty()) {
@@ -107,7 +108,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
+     *this method returns the first person currently in the IsraeliQueue if the queue is not empty
      * @return
      */
     public E peek() {
@@ -118,15 +119,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
-     * @return
-     */
-    public int size() {
-        return size;
-    }
-
-    /**
-     *
+     *check if the queue is empty
      * @return
      */
     public boolean isEmpty() {
@@ -134,7 +127,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
+     *creating a deep copy of the queue
      * @return
      */
     public IsraeliQueue<E> clone() {
@@ -142,7 +135,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         Node<MyLinkedList<E>> current = head;
         while (current != null) {
             MyLinkedList<E> group = current.getValue();
-            MyLinkedList<E> newGroup = group.clone(); // Use the clone method of MyLinkedList
+            MyLinkedList<E> newGroup = group.clone();
             Node<MyLinkedList<E>> newNode = new Node<>(newGroup);
             if (clonedQueue.tail == null) {
                 clonedQueue.head = clonedQueue.tail = newNode;
@@ -156,7 +149,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     }
 
     /**
-     *
+     *an iterator fo IsraeliQueue
      * @return
      */
     @Override
@@ -164,9 +157,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         return new IsraeliQueueIterator();
     }
 
-    /**
-     *
-     */
+
     private class IsraeliQueueIterator implements Iterator<E> {
         private Node<MyLinkedList<E>> currentNode = head;
         private int currentIndex = 0;
@@ -181,7 +172,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
 
         /**
-         *
+         * goes through the queue and check if there are more elements in the next place in the list
          * @return
          */
         @Override
