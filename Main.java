@@ -165,8 +165,8 @@ public class Main {
         //System.out.println(ride1.getQueue().peek());
         //System.out.println(ride3.getQueue().peek());
         //works!!
-
-        park.startRides();
+        //park.remove(ride1);
+        //park.startRides();
         System.out.println("Starting yet again.");
 
         park.startRides();

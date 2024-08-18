@@ -7,14 +7,18 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
     private Node<E> tail;
     private int size;
 
-    // Constructor to initialize an empty list
     public MyLinkedList() {
         head = null;
         tail = null;
         size = 0;
     }
 
-    // Add a new element to the end of the list
+    /**
+     * add an element at the end of the list
+     * if it's the first one, initialize it to be head and tail of the linked list
+     * add to the list size +1
+     * @param e
+     */
     public void add(E e) {
         if (head == null) {
             head = new Node<>(e);
@@ -26,47 +30,47 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
         size++;
     }
 
-    // Get an element at a specified index
+    /**
+     * get value at a certain index of the linkedlist by going over the linked list until reaching the desired node
+     * @param index
+     * @return
+     */
     public E get(int index) {
         checkIndex(index);
-        Node<E> current = head;
+        Node<E> node_1 = head;
         for (int i = 0; i < index; i++) {
-            current = current.getNext();
+            node_1 = node_1.getNext();
         }
-        return current.getValue();
+        return node_1.getValue();
     }
 
-    // Remove an element at a specified index
-    public E remove(int index) {
-        checkIndex(index);
-        if (index == 0) {
+    /**
+     * removing an element from start
+     * reassign head
+     * @return
+     */
+    public E remove() {
             E value = head.getValue();
             head = head.getNext();
             size--;
             return value;
-        } else {
-            Node<E> current = head;
-            for (int i = 0; i < index - 1; i++) {
-                current = current.getNext();
-            }
-            Node<E> nodeToRemove = current.getNext();
-            current.setNext(nodeToRemove.getNext());
-            size--;
-            return nodeToRemove.getValue();
         }
-    }
 
-    // Get the current size of the list
+
     public int size() {
         return size;
     }
 
-    // Check if the list is empty
+
     public boolean isEmpty() {
         return size == 0;
     }
 
-    // Check if the list contains a certain element
+    /**
+     * we will use this to check if the group contains a friend
+     * @param e
+     * @return
+     */
     public boolean contains(E e) {
         if (head == null) {
             return false;
@@ -74,24 +78,27 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
         return head.isContained(e);
     }
 
-    // Clear all elements from the list
-    public void clear() {
-        head = null;
-        size = 0;
-    }
-
-    // Clone the entire list
+    /**
+     * creating a deep copy of the queue
+     * @return
+     */
+    @Override
     public MyLinkedList<E> clone() {
         MyLinkedList<E> clonedList = new MyLinkedList<>();
-        Node<E> current = head;
-        while (current != null) {
-            E clonedElement = cloneElement(current.getValue());
+        Node<E> current_person = head;
+        while (current_person != null) {
+            E clonedElement = cloneElement(current_person.getValue());
             clonedList.add(clonedElement);
-            current = current.getNext();
+            current_person = current_person.getNext();
         }
         return clonedList;
     }
 
+    /**
+     * clones a person (deep copy)
+     * @param element
+     * @return
+     */
     private E cloneElement(E element) {
         if (element == null) {
             return null;
@@ -100,31 +107,18 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
             Method cloneMethod = element.getClass().getMethod("clone");
             return (E) cloneMethod.invoke(element);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Cloning failed for element: " + element, e);
+            throw new RuntimeException();
         }
     }
 
-    // Check if the index is within bounds
+    /**
+     * checking if index is within the defined bounds
+     * @param index
+     */
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException();
         }
-    }
-
-    // Convert list to string for display
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        Node<E> current = head;
-        while (current != null) {
-            sb.append(current.getValue());
-            current = current.getNext();
-            if (current != null) {
-                sb.append(", ");
-            }
-        }
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override
@@ -132,21 +126,24 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
         return new MyLinkedListIterator();
     }
 
+    /**
+     * an iterator fo MyLinkedList
+     */
     private class MyLinkedListIterator implements Iterator<E> {
-        private Node<E> current = head;
+        private Node<E> node_to_iterate = head;
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return node_to_iterate != null;
         }
 
         @Override
         public E next() {
             if (!hasNext()) {
-                throw new IllegalStateException("No more elements");
+                throw new IllegalStateException();
             }
-            E value = current.getValue();
-            current = current.getNext();
+            E value = node_to_iterate.getValue();
+            node_to_iterate = node_to_iterate.getNext();
             return value;
         }
     }

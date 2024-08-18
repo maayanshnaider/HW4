@@ -9,6 +9,13 @@ public class AmusementRide {
         this.maxCapacity = maxCapacity;
     }
 
+    /**
+     * this method starts the rides
+     * first check if queue is empty; if so print massage
+     * check which one is shorter- queue size or max capacity of the ride
+     * remove that number of people from queue - these are the people going on the ride
+     * @throws EmptyQueueException
+     */
     public void startRide() throws EmptyQueueException {
         if (queue.isEmpty()) {
             System.out.println("Ride is empty.");
@@ -16,32 +23,16 @@ public class AmusementRide {
         }
 
         System.out.println("Currently using the ride:");
-        int rideCount = Math.min(queue.size(), maxCapacity);
-        for (int i = 0; i < rideCount; i++) {
+        int counter = Math.min(queue.size(), maxCapacity);
+        for (int i = 0; i < counter; i++) {
             Person person = queue.remove();
             System.out.println(person.getName());
         }
     }
 
-    // Getters and setters
-
     public IsraeliQueue<Person> getQueue() {
         return queue;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true; // Same memory location
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        return this == obj; // Check if it's the same instance
-    }
-
-    @Override
-    public int hashCode() {
-        return System.identityHashCode(this); // Use identity hash code
-    }
 }
+
+

@@ -75,7 +75,7 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         MyLinkedList<E> group = head.getValue();
         //TODO CHECK
-        E removedPerson = group.remove(0);
+        E removedPerson = group.remove();
         size--;
 
         if (group.isEmpty()) {
