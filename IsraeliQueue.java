@@ -107,15 +107,10 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
     public IsraeliQueue<E> clone() {
         IsraeliQueue<E> clonedQueue = new IsraeliQueue<>();
-
-        Node<MyLinkedList<E>> current = this.head;
+        Node<MyLinkedList<E>> current = head;
         while (current != null) {
             MyLinkedList<E> group = current.getValue();
-            MyLinkedList<E> newGroup = new MyLinkedList<>();
-            for (E person : group) {
-                E clonedPerson = cloneElement(person);
-                newGroup.add(clonedPerson);
-            }
+            MyLinkedList<E> newGroup = group.clone(); // Use the clone method of MyLinkedList
             Node<MyLinkedList<E>> newNode = new Node<>(newGroup);
             if (clonedQueue.tail == null) {
                 clonedQueue.head = clonedQueue.tail = newNode;
@@ -125,7 +120,6 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             }
             current = current.getNext();
         }
-
         return clonedQueue;
     }
 //TODO check what it does

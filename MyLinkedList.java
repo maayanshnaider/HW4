@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class MyLinkedList<E extends Cloneable> implements Iterable<E>  {
+public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
@@ -18,15 +18,14 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E>  {
     public void add(E e) {
         if (head == null) {
             head = new Node<>(e);
+            tail = head;
         } else {
-            Node<E> current = head;
-            while (current.getNext() != null) {
-                current = current.getNext();
-            }
-            current.setNext(new Node<>(e));
+            tail.setNext(new Node<>(e));
+            tail = tail.getNext();
         }
         size++;
     }
+
     // Get an element at a specified index
     public E get(int index) {
         checkIndex(index);
@@ -81,6 +80,30 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E>  {
         size = 0;
     }
 
+    // Clone the entire list
+    public MyLinkedList<E> clone() {
+        MyLinkedList<E> clonedList = new MyLinkedList<>();
+        Node<E> current = head;
+        while (current != null) {
+            E clonedElement = cloneElement(current.getValue());
+            clonedList.add(clonedElement);
+            current = current.getNext();
+        }
+        return clonedList;
+    }
+
+    private E cloneElement(E element) {
+        if (element == null) {
+            return null;
+        }
+        try {
+            Method cloneMethod = element.getClass().getMethod("clone");
+            return (E) cloneMethod.invoke(element);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Cloning failed for element: " + element, e);
+        }
+    }
+
     // Check if the index is within bounds
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
@@ -106,6 +129,25 @@ public class MyLinkedList<E extends Cloneable> implements Iterable<E>  {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new MyLinkedListIterator();
+    }
+
+    private class MyLinkedListIterator implements Iterator<E> {
+        private Node<E> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new IllegalStateException("No more elements");
+            }
+            E value = current.getValue();
+            current = current.getNext();
+            return value;
+        }
     }
 }
