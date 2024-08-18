@@ -7,12 +7,22 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     private Node<MyLinkedList<E>> tail;
     private int size;
 
+    /**
+     * a constructor to give israeliQueue its attributes: head, tail and size
+     */
     public IsraeliQueue() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
 
+    /**
+     * the add method adds a person to the queue. if the new person has a friend in the queue, he will be added to the end of his friend group.
+     * if he doesn't have a friend, he will be added to the end of the queue and form a new group of his own.
+     * when a new person is added ot the list the size of the IsraeliQueue is increased by one.
+     * if a null person is being added to the list, an exception is thrown.
+     * @param newPerson
+     */
     public void add(E newPerson) {
         if (newPerson == null) {
             throw new InvalidInputException();
@@ -35,6 +45,11 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
     }
 
+    /**
+     *
+     * @param newPerson
+     * @param friend
+     */
     public void add(E newPerson, E friend) {
         if (newPerson == null || friend == null) {
             throw new InvalidInputException();
@@ -67,14 +82,17 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
         size++;
     }
-    //TODO check if works
+
+    /**
+     *
+     * @return
+     */
     public E remove() {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }
 
         MyLinkedList<E> group = head.getValue();
-        //TODO CHECK
         E removedPerson = group.remove(0);
         size--;
 
@@ -87,7 +105,11 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         return removedPerson;
     }
-    //TODO check if works
+
+    /**
+     *
+     * @return
+     */
     public E peek() {
         if (isEmpty()) {
             throw new EmptyQueueException();
@@ -95,14 +117,26 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         return head.getValue().get(0);
     }
 
+    /**
+     *
+     * @return
+     */
     public int size() {
         return size;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public IsraeliQueue<E> clone() {
         IsraeliQueue<E> clonedQueue = new IsraeliQueue<>();
         Node<MyLinkedList<E>> current = head;
@@ -120,26 +154,19 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
         }
         return clonedQueue;
     }
-//TODO check what it does
-    private E cloneElement(E element) {
-        if (element == null) {
-            return null;
-        }
-        try {
-            Method cloneMethod = element.getClass().getMethod("clone");
-            return (E) cloneMethod.invoke(element);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            // If cloning fails, return the original element
-            // You might want to log this exception
-            return null;
-        }
-    }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Iterator<E> iterator() {
         return new IsraeliQueueIterator();
     }
 
+    /**
+     *
+     */
     private class IsraeliQueueIterator implements Iterator<E> {
         private Node<MyLinkedList<E>> currentNode = head;
         private int currentIndex = 0;
@@ -153,6 +180,10 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
             return currentNode != null;
         }
 
+        /**
+         *
+         * @return
+         */
         @Override
         public E next() {
             if (!hasNext()) {
