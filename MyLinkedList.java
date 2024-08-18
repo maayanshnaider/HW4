@@ -1,6 +1,6 @@
-import java.util.Iterator;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 
 public class MyLinkedList<E extends Cloneable> implements Iterable<E> {
     private Node<E> head;

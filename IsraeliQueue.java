@@ -1,8 +1,6 @@
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
     private Node<MyLinkedList<E>> head;

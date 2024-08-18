@@ -1,46 +1,82 @@
-import java.util.ArrayList;
-
 public class Park {
     private final String name;
-    private ArrayList<AmusementRide> rides;
+    private Node head;
+    private Node tail;
     private int rideCount;
     private static final int MAX_RIDES = 5;
 
+    // Private inner Node class
+    private static class Node {
+        AmusementRide ride;
+        Node next;
+
+        Node(AmusementRide ride) {
+            this.ride = ride;
+            this.next = null;
+        }
+    }
+
     public Park(String name) {
         this.name = name;
-        this.rides = new ArrayList<AmusementRide>();
+        this.head = null;
+        this.tail = null;
         this.rideCount = 0;
     }
 
     public void add(AmusementRide ride) {
         if (rideCount < MAX_RIDES) {
-            rides.add(ride);
+            Node newNode = new Node(ride);
+            if (tail == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
             rideCount++;
         }
     }
-//TODO check if works
+
     public void remove(AmusementRide ride) {
-        for (int i = 0; i < rideCount; i++) {
-            if (rides.get(i) == ride) {
-                rides.remove(i);
-                --rideCount;
+        Node current = head;
+        Node previous = null;
+
+        while (current != null) {
+            if (current.ride == ride) {
+                if (previous == null) {
+                    head = current.next;
+                    if (head == null) {
+                        tail = null;
+                    }
+                } else {
+                    previous.next = current.next;
+                    if (current == tail) {
+                        tail = previous;
+                    }
+                }
+                rideCount--;
                 return;
             }
+            previous = current;
+            current = current.next;
         }
     }
 
     public void startRides() throws EmptyQueueException {
-        for (int i = 0; i < rideCount; i++) {
-            rides.get(i).startRide();
+        Node current = head;
+        while (current != null) {
+            current.ride.startRide();
+            current = current.next;
         }
     }
 
     public void addPerson(AmusementRide ride, Person person) throws InvalidInputException {
-        for (int i = 0; i < rideCount; i++) {
-            if (rides.get(i) == ride) {
-                rides.get(i).getQueue().add(person);
+        Node current = head;
+        while (current != null) {
+            if (current.ride == ride) {
+                current.ride.getQueue().add(person);
                 return;
             }
+            current = current.next;
         }
     }
 }
