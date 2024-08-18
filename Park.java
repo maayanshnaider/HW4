@@ -46,6 +46,7 @@ public class Park {
                     }
                 }
                 rideCount--;
+
                 return;
             }
             previous = current;

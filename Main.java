@@ -157,9 +157,13 @@ public class Main {
         //works!!
 
         //my test for does one person equals another by id:
-        //Person person = new Person("Ploni Almoni 8", 8);
+        //Person person = new Person("Ploni Almoni 8", 9);
         //Person person2 = new Person("Ploni Almoni 9", 8);
         //System.out.println(person2.equals(person));
+        //works!!
+        //testing peek
+        //System.out.println(ride1.getQueue().peek());
+        //System.out.println(ride3.getQueue().peek());
         //works!!
 
         park.startRides();

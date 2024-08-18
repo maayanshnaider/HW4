@@ -1,7 +1,7 @@
 public class AmusementRide {
     private String name;
     private IsraeliQueue<Person> queue;
-    private int maxCapacity;
+    private final int maxCapacity;
 
     public AmusementRide(String name, int maxCapacity) {
         this.name = name;

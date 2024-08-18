@@ -87,7 +87,6 @@ public class IsraeliQueue<E extends Cloneable> implements Iterable<E> {
 
         return removedPerson;
     }
-    //TODO check if works
     public E peek() {
         if (isEmpty()) {
             throw new EmptyQueueException();
